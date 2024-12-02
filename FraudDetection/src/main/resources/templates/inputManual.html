@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Input Manual</title>
+  <link rel="stylesheet" href="/css/inputManual.css">
+</head>
+<body>
+
+<form action="/analisis" method="POST">
+  <h2>Silahkan Isi Data Transaksi Anda!</h2>
+
+  <label for="amount">Amount:</label>
+  <input type="number" name="amount" id="amount" required>
+
+  <label for="typeOfCard">Type of Card:</label>
+  <input type="text" name="typeOfCard" id="typeOfCard" required>
+
+  <label for="entryMode">Entry Mode:</label>
+  <input type="text" name="entryMode" id="entryMode" required>
+
+  <label for="transactionType">Transaction Type:</label>
+  <input type="text" name="transactionType" id="transactionType" required>
+
+  <label for="countryOfTransaction">Country of Transaction:</label>
+  <input type="text" name="countryOfTransaction" id="countryOfTransaction" required>
+
+  <label for="gender">Gender:</label>
+  <input type="text" name="gender" id="gender" required>
+
+  <label for="bank">Bank:</label>
+  <input type="text" name="bank" id="bank" required>
+
+  <label for="date">Date:</label>
+  <input type="date" name="date" id="date" required>
+
+  <label for="dayOfWeek">Day of the Week:</label>
+  <select name="dayOfWeek" id="dayOfWeek" required>
+    <option value="">-- Select Day --</option>
+    <option value="Monday">Monday</option>
+    <option value="Tuesday">Tuesday</option>
+    <option value="Wednesday">Wednesday</option>
+    <option value="Thursday">Thursday</option>
+    <option value="Friday">Friday</option>
+    <option value="Saturday">Saturday</option>
+    <option value="Sunday">Sunday</option>
+  </select>
+
+  <button type="submit">Submit</button>
+</form>
+
+</body>
+</html>

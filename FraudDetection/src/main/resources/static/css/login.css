@@ -1,0 +1,97 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+html,
+body {
+    height: 100%;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background: url('fraudimage.jpeg') no-repeat center center/cover; /* Menambahkan gambar background */
+    background-size: cover;
+    color: rgba(255, 255, 255, 0.8);
+    line-height: 1.6;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+body:before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background: rgba(0, 0, 0, 0.5); /* Overlay gelap untuk kontras teks */
+    opacity: 0.7;
+}
+
+.login-form {
+    width: 100%;
+    padding: 2em;
+    position: relative;
+    background: rgba(255, 255, 255, 0.64); /* Background cream */
+    border-radius: 10px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+.login-form:before {
+    content: "";
+    position: absolute;
+    top: -2px;
+    left: 0;
+    height: 2px;
+    width: 100%;
+}
+
+@media screen and (min-width: 600px) {
+    .login-form {
+        width: 50vw;
+        max-width: 15em;
+    }
+}
+
+.flex-row {
+    display: flex;
+    margin-bottom: 1em;
+}
+
+.lf--input {
+    flex: 1;
+    padding: 1em;
+    border: 0;
+    color: rgb(0, 0, 0);  /* Ubah warna teks menjadi hitam agar lebih kontras */
+    font-size: 1rem;
+    background-color: rgba(255, 255, 255, 0.8); /* Tambahkan latar belakang lebih terang untuk input */
+}
+
+
+.lf--submit {
+    display: block;
+    padding: 1em;
+    width: 100%;
+    background: rgba(174, 152, 119, 0.91); /* Warna tombol seperti di index */
+    border: 0;
+    color: #fff;
+    cursor: pointer;
+    font-size: 0.75em;
+    font-weight: 600;
+}
+
+.lf--submit:hover {
+    background: rgba(255, 255, 255, 0.46); /* Cream terang */
+    color: rgba(174, 152, 119, 0.91); /* Ubah warna teks */
+}
+
+.centered {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
