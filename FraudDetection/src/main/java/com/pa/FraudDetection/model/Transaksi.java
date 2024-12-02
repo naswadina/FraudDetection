@@ -17,8 +17,8 @@ public class Transaksi {
     private Long transactionId;
 
     @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
-    private User user;  // Relasi ke tabel users
+    @JoinColumn(name = "user_id")
+    private User user;
 
     private BigDecimal amount;
     private String typeOfCard;
@@ -31,7 +31,7 @@ public class Transaksi {
     private String dayOfWeek;
     private boolean fraud;
 
-    // Constructor
+    // Konstruktor
     public Transaksi() {}
 
     public Transaksi(User user, BigDecimal amount, String typeOfCard, String entryMode, String transactionType,
@@ -131,8 +131,8 @@ public class Transaksi {
     }
 
     // Getter and Setter for date
-    public LocalDate getDate() {
-        return date;
+    public String getDateAsString() {
+        return date.toString();
     }
 
     public void setDate(LocalDate date) {
@@ -148,12 +148,19 @@ public class Transaksi {
         this.dayOfWeek = dayOfWeek;
     }
 
-    // Getter and Setter for fraud
     public boolean isFraud() {
         return fraud;
     }
 
     public void setFraud(boolean fraud) {
         this.fraud = fraud;
+    }
+
+    public LocalDate getDate() {
+        return date;
+    }
+
+    public boolean getFraud() {
+        return fraud;
     }
 }

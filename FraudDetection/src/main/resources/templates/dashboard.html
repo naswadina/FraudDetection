@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<div class="dashboard-container">
+  <div class="content">
+    <h1>Dashboard Pengguna</h1>
+
+    <div class="section">
+      <h3>Informasi Pengguna</h3>
+      <p><strong>ID:</strong> ${userId}</p>
+      <p><strong>Username:</strong> ${username}</p>
+      <p><strong>Email:</strong> ${email}</p>
+    </div>
+
+    <div class="section">
+      <h3>Hasil Analisis Transaksi Terakhir</h3>
+      <p><strong>Hasil Analisis:</strong> ${hasilAnalisis}</p>
+    </div>
+
+    <div class="section">
+      <h3>Data Transaksi Terakhir</h3>
+      <p><strong>ID Transaksi:</strong> ${transaksi.id}</p>
+      <p><strong>Amount:</strong> ${transaksi.amount}</p>
+      <p><strong>Card Type:</strong> ${transaksi.typeOfCard}</p>
+      <p><strong>Entry Mode:</strong> ${transaksi.entryMode}</p>
+      <p><strong>Transaction Type:</strong> ${transaksi.transactionType}</p>
+      <p><strong>Transaction Date:</strong> ${transaksi.date}</p>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

@@ -14,15 +14,10 @@ public class User {
     private String username;
     private String email;
 
-    // Constructor
+    // Konstruktor default tanpa parameter
     public User() {}
 
-    public User(String username, String email) {
-        this.username = username;
-        this.email = email;
-    }
-
-    // Getters and Setters
+    // Getter dan Setter untuk userId, username, email
     public Long getUserId() {
         return userId;
     }
@@ -47,4 +42,3 @@ public class User {
         this.email = email;
     }
 }
-

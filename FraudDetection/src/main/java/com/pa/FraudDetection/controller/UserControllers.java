@@ -1,9 +1,7 @@
 package com.pa.FraudDetection.controller;
 
 import com.pa.FraudDetection.model.User;
-import com.pa.FraudDetection.repository.TransaksiRepository;
 import com.pa.FraudDetection.repository.UserRepository;
-import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -43,6 +41,6 @@ public class UserControllers {
         // Simpan ke database
         userRepository.save(user);
 
-        return "redirect:/pilihInput"; // Redirect ke halaman pilih input
+        return "redirect:/inputManual"; // Redirect ke halaman pilih input
     }
 }

@@ -8,29 +8,56 @@
 </head>
 <body>
 
-<form action="/analisis" method="POST">
+<form action="/inputManual" method="POST">
   <h2>Silahkan Isi Data Transaksi Anda!</h2>
 
   <label for="amount">Amount:</label>
   <input type="number" name="amount" id="amount" required>
 
   <label for="typeOfCard">Type of Card:</label>
-  <input type="text" name="typeOfCard" id="typeOfCard" required>
+  <select name="typeOfCard" id="typeOfCard" required>
+    <option value="">-- Select Type Of Card --</option>
+    <option value="Visa">Visa</option>
+    <option value="MasterCard">MasterCard</option>
+  </select>
 
   <label for="entryMode">Entry Mode:</label>
-  <input type="text" name="entryMode" id="entryMode" required>
+  <select name="entryMode" id="entryMode" required>
+    <option value="">-- Select Entry Mode --</option>
+    <option value="PIN">PIN</option>
+    <option value="CVC">CVC</option>
+    <option value="Tap">Tap</option>
+  </select>
 
   <label for="transactionType">Transaction Type:</label>
-  <input type="text" name="transactionType" id="transactionType" required>
+  <select name="transactionType" id="transactionType" required>
+    <option value="">-- Select Type Of Transaction --</option>
+    <option value="Online">Online</option>
+    <option value="ATM">ATM</option>
+    <option value="POS">POS</option>
+  </select>
 
   <label for="countryOfTransaction">Country of Transaction:</label>
   <input type="text" name="countryOfTransaction" id="countryOfTransaction" required>
 
   <label for="gender">Gender:</label>
-  <input type="text" name="gender" id="gender" required>
+  <select name="gender" id="gender" required>
+    <option value="">-- Select Gender --</option>
+    <option value="Male">Male</option>
+    <option value="Female">Female</option>
+  </select>
 
   <label for="bank">Bank:</label>
-  <input type="text" name="bank" id="bank" required>
+  <select name="bank" id="bank" required>
+    <option value="">-- Select Bank --</option>
+    <option value="Barclays">Barclays</option>
+    <option value="Monzo">Monzo</option>
+    <option value="RBS">RBS</option>
+    <option value="Metro">Metro</option>
+    <option value="Halifax">Halifax</option>
+    <option value="Lloyds">Lloyds</option>
+    <option value="HSBC">HSBC</option>
+  </select>
 
   <label for="date">Date:</label>
   <input type="date" name="date" id="date" required>
