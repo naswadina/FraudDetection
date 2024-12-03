@@ -6,8 +6,10 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.math.BigDecimal;
-import java.time.LocalDate;
+import java.util.Date;
 
 @Entity
 public class Transaksi {
@@ -21,21 +23,22 @@ public class Transaksi {
     private User user;
 
     private BigDecimal amount;
-    private String typeOfCard;
-    private String entryMode;
-    private String transactionType;
-    private String countryOfTransaction;
-    private String gender;
-    private String bank;
-    private LocalDate date;
-    private String dayOfWeek;
+    private int typeOfCard;  // Ganti tipe menjadi int
+    private int entryMode;   // Ganti tipe menjadi int
+    private int transactionType;  // Ganti tipe menjadi int
+    private int countryOfTransaction;  // Ganti tipe menjadi int
+    private int gender;  // Ganti tipe menjadi int
+    private int bank;  // Ganti tipe menjadi int
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private Date date;
+    private int dayOfWeek;
     private boolean fraud;
 
-    // Konstruktor
+    // Konstruktor tanpa String pada tipe yang seharusnya int
     public Transaksi() {}
 
-    public Transaksi(User user, BigDecimal amount, String typeOfCard, String entryMode, String transactionType,
-                     String countryOfTransaction, String gender, String bank, LocalDate date, String dayOfWeek, boolean fraud) {
+    public Transaksi(User user, BigDecimal amount, int typeOfCard, int entryMode, int transactionType,
+                     int countryOfTransaction, int gender, int bank, Date date, int dayOfWeek, boolean fraud) {
         this.user = user;
         this.amount = amount;
         this.typeOfCard = typeOfCard;
@@ -77,77 +80,78 @@ public class Transaksi {
     }
 
     // Getter and Setter for typeOfCard
-    public String getTypeOfCard() {
+    public int getTypeOfCard() {
         return typeOfCard;
     }
 
-    public void setTypeOfCard(String typeOfCard) {
+    public void setTypeOfCard(int typeOfCard) {
         this.typeOfCard = typeOfCard;
     }
 
     // Getter and Setter for entryMode
-    public String getEntryMode() {
+    public int getEntryMode() {
         return entryMode;
     }
 
-    public void setEntryMode(String entryMode) {
+    public void setEntryMode(int entryMode) {
         this.entryMode = entryMode;
     }
 
     // Getter and Setter for transactionType
-    public String getTransactionType() {
+    public int getTransactionType() {
         return transactionType;
     }
 
-    public void setTransactionType(String transactionType) {
+    public void setTransactionType(int transactionType) {
         this.transactionType = transactionType;
     }
 
     // Getter and Setter for countryOfTransaction
-    public String getCountryOfTransaction() {
+    public int getCountryOfTransaction() {
         return countryOfTransaction;
     }
 
-    public void setCountryOfTransaction(String countryOfTransaction) {
+    public void setCountryOfTransaction(int countryOfTransaction) {
         this.countryOfTransaction = countryOfTransaction;
     }
 
     // Getter and Setter for gender
-    public String getGender() {
+    public int getGender() {
         return gender;
     }
 
-    public void setGender(String gender) {
+    public void setGender(int gender) {
         this.gender = gender;
     }
 
     // Getter and Setter for bank
-    public String getBank() {
+    public int getBank() {
         return bank;
     }
 
-    public void setBank(String bank) {
+    public void setBank(int bank) {
         this.bank = bank;
     }
 
     // Getter and Setter for date
-    public String getDateAsString() {
-        return date.toString();
+    public Date getDate() {
+        return date;
     }
 
-    public void setDate(LocalDate date) {
+    public void setDate(Date date) {
         this.date = date;
     }
 
     // Getter and Setter for dayOfWeek
-    public String getDayOfWeek() {
+    public int getDayOfWeek() {
         return dayOfWeek;
     }
 
-    public void setDayOfWeek(String dayOfWeek) {
+    public void setDayOfWeek(int dayOfWeek) {
         this.dayOfWeek = dayOfWeek;
     }
 
+    // Getter and Setter for fraud
     public boolean isFraud() {
         return fraud;
     }
@@ -156,11 +160,8 @@ public class Transaksi {
         this.fraud = fraud;
     }
 
-    public LocalDate getDate() {
-        return date;
-    }
-
     public boolean getFraud() {
         return fraud;
     }
 }
+

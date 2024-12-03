@@ -6,11 +6,12 @@ import com.pa.FraudDetection.repository.TransaksiRepository;
 import com.pa.FraudDetection.repository.UserRepository;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
 @Controller
@@ -23,7 +24,7 @@ public class TransaksiControllers {
     private UserRepository userRepository;
 
     // URL FastAPI
-    private static final String fastApiUrl = "http://127.0.0.1:8000";
+    private static final String fastApiUrl = "http://127.0.0.1:8000/analisis-transaksi/";
 
     @GetMapping("/inputManual")
     public String showInputManualForm() {
@@ -34,28 +35,54 @@ public class TransaksiControllers {
     public String analyzeTransaction(Transaksi transaksi, Model model) {
         RestTemplate restTemplate = new RestTemplate();
 
-        // Kirim data ke FastAPI
-        ResponseEntity<String> response = restTemplate.postForEntity(
-                fastApiUrl + "/analisis-transaksi/",  // Gunakan URL yang sudah didefinisikan
-                transaksi,
-                String.class
-        );
+        // Menyusun header dan body untuk request JSON
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
 
-        // Ambil hasil analisis
-        String analysisResult = response.getBody();
-        System.out.println("Hasil Analisis dari Python: " + analysisResult);
+        // Menyusun objek JSON dari transaksi
+        String body = "{ \"date\": \"" + transaksi.getDate() + "\", \"amount\": " + transaksi.getAmount() + " }";
 
-        // Menyimpan hasil analisis pada objek transaksi
-        transaksi.setFraud(analysisResult.equals("Fraud"));
+        HttpEntity<String> request = new HttpEntity<>(body, headers);
 
-        // Menyimpan transaksi ke database
-        transaksiRepository.save(transaksi);
+        try {
+            // Kirim data ke FastAPI
+            ResponseEntity<String> response = restTemplate.exchange(
+                    fastApiUrl,  // Gunakan URL yang sudah didefinisikan
+                    HttpMethod.POST,
+                    request,
+                    String.class
+            );
 
-        // Menambahkan hasil analisis ke model untuk ditampilkan di dashboard
-        model.addAttribute("transaksi", transaksi);
-        model.addAttribute("hasilAnalisis", analysisResult);
+            // Ambil hasil analisis dari FastAPI
+            String analysisResult = response.getBody();
+            System.out.println("Hasil Analisis dari Python: " + analysisResult);
 
-        return "dashboard"; // Tampilkan dashboard dengan hasil analisis
+            // Pastikan analysisResult tidak null sebelum memanggil equals()
+            if (analysisResult != null && analysisResult.equals("Fraud")) {
+                transaksi.setFraud(true);
+            } else {
+                transaksi.setFraud(false);
+            }
+            System.out.println("Analysis result: " + analysisResult);
+
+
+            // Menyimpan hasil analisis pada objek transaksi
+            transaksi.setFraud(analysisResult.equals("Fraud"));
+
+            // Menyimpan transaksi ke database
+            transaksiRepository.save(transaksi);
+
+            // Menambahkan hasil analisis ke model untuk ditampilkan di dashboard
+            model.addAttribute("transaksi", transaksi);
+            model.addAttribute("hasilAnalisis", analysisResult);
+
+            return "dashboard"; // Tampilkan dashboard dengan hasil analisis
+
+        } catch (HttpClientErrorException e) {
+            // Menangani error jika ada masalah pada request
+            model.addAttribute("error", "Error: " + e.getMessage());
+            return "error"; // Menampilkan halaman error jika terjadi masalah
+        }
     }
 
     @GetMapping("/dashboard")
