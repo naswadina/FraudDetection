@@ -40,14 +40,24 @@ public class TransaksiControllers {
         headers.setContentType(MediaType.APPLICATION_JSON);
 
         // Menyusun objek JSON dari transaksi
-        String body = "{ \"date\": \"" + transaksi.getDate() + "\", \"amount\": " + transaksi.getAmount() + " }";
+        String body = "{ " +
+                "\"amount\": " + transaksi.getAmount() + "," +
+                "\"typeOfCard\": " + transaksi.getTypeOfCard() + "," +
+                "\"entryMode\": " + transaksi.getEntryMode() + "," +
+                "\"transactionType\": " + transaksi.getTransactionType() + "," +
+                "\"countryOfTransaction\": " + transaksi.getCountryOfTransaction() + "," +
+                "\"gender\": " + transaksi.getGender() + "," +
+                "\"bank\": " + transaksi.getBank() + "," +
+                "\"dayOfWeek\": " + transaksi.getDayOfWeek() + "," +
+                "\"date\": \"" + transaksi.getDate() + "\"" +
+                "}";
 
         HttpEntity<String> request = new HttpEntity<>(body, headers);
 
         try {
             // Kirim data ke FastAPI
             ResponseEntity<String> response = restTemplate.exchange(
-                    fastApiUrl,  // Gunakan URL yang sudah didefinisikan
+                    fastApiUrl,
                     HttpMethod.POST,
                     request,
                     String.class

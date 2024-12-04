@@ -6,8 +6,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import org.springframework.format.annotation.DateTimeFormat;
-
 import java.math.BigDecimal;
 import java.util.Date;
 
@@ -23,13 +21,12 @@ public class Transaksi {
     private User user;
 
     private BigDecimal amount;
-    private int typeOfCard;  // Ganti tipe menjadi int
-    private int entryMode;   // Ganti tipe menjadi int
-    private int transactionType;  // Ganti tipe menjadi int
-    private int countryOfTransaction;  // Ganti tipe menjadi int
-    private int gender;  // Ganti tipe menjadi int
-    private int bank;  // Ganti tipe menjadi int
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private int typeOfCard;
+    private int entryMode;
+    private int transactionType;
+    private int countryOfTransaction;
+    private int gender;
+    private int bank;
     private Date date;
     private int dayOfWeek;
     private boolean fraud;
