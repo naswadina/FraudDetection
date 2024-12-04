@@ -31,7 +31,6 @@ public class Transaksi {
     private int dayOfWeek;
     private boolean fraud;
 
-    // Konstruktor tanpa String pada tipe yang seharusnya int
     public Transaksi() {}
 
     public Transaksi(User user, BigDecimal amount, int typeOfCard, int entryMode, int transactionType,
