@@ -1,5 +1,7 @@
 package com.pa.FraudDetection.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pa.FraudDetection.model.Transaksi;
 import com.pa.FraudDetection.model.User;
 import com.pa.FraudDetection.repository.TransaksiRepository;
@@ -13,6 +15,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
+
+import java.text.SimpleDateFormat;
+import java.util.List;
 
 @Controller
 public class TransaksiControllers {
@@ -34,27 +39,16 @@ public class TransaksiControllers {
     @PostMapping("/inputManual")
     public String analyzeTransaction(Transaksi transaksi, Model model) {
         RestTemplate restTemplate = new RestTemplate();
-
-        // Menyusun header dan body untuk request JSON
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
 
-        // Menyusun objek JSON dari transaksi
-        String body = "{ " +
-                "\"amount\": " + transaksi.getAmount() + "," +
-                "\"typeOfCard\": " + transaksi.getTypeOfCard() + "," +
-                "\"entryMode\": " + transaksi.getEntryMode() + "," +
-                "\"transactionType\": " + transaksi.getTransactionType() + "," +
-                "\"countryOfTransaction\": " + transaksi.getCountryOfTransaction() + "," +
-                "\"gender\": " + transaksi.getGender() + "," +
-                "\"bank\": " + transaksi.getBank() + "," +
-                "\"dayOfWeek\": " + transaksi.getDayOfWeek() + "," +
-                "\"date\": \"" + transaksi.getDate() + "\"" +
-                "}";
-
-        HttpEntity<String> request = new HttpEntity<>(body, headers);
-
         try {
+            // Konversi objek transaksi menjadi JSON string
+            ObjectMapper objectMapper = new ObjectMapper();
+            String body = objectMapper.writeValueAsString(transaksi);  // Memungkinkan JsonProcessingException
+
+            HttpEntity<String> request = new HttpEntity<>(body, headers);
+
             // Kirim data ke FastAPI
             ResponseEntity<String> response = restTemplate.exchange(
                     fastApiUrl,
@@ -63,35 +57,30 @@ public class TransaksiControllers {
                     String.class
             );
 
-            // Ambil hasil analisis dari FastAPI
             String analysisResult = response.getBody();
             System.out.println("Hasil Analisis dari Python: " + analysisResult);
 
-            // Pastikan analysisResult tidak null sebelum memanggil equals()
             if (analysisResult != null && analysisResult.equals("Fraud")) {
                 transaksi.setFraud(true);
             } else {
                 transaksi.setFraud(false);
             }
-            System.out.println("Analysis result: " + analysisResult);
 
-
-            // Menyimpan hasil analisis pada objek transaksi
-            transaksi.setFraud(analysisResult.equals("Fraud"));
-
-            // Menyimpan transaksi ke database
             transaksiRepository.save(transaksi);
-
-            // Menambahkan hasil analisis ke model untuk ditampilkan di dashboard
             model.addAttribute("transaksi", transaksi);
             model.addAttribute("hasilAnalisis", analysisResult);
 
-            return "dashboard"; // Tampilkan dashboard dengan hasil analisis
+            return "dashboard";
 
+        } catch (JsonProcessingException e) {
+            model.addAttribute("error", "Error converting object to JSON: " + e.getMessage());
+            return "error";
         } catch (HttpClientErrorException e) {
-            // Menangani error jika ada masalah pada request
-            model.addAttribute("error", "Error: " + e.getMessage());
-            return "error"; // Menampilkan halaman error jika terjadi masalah
+            model.addAttribute("error", "HTTP error: " + e.getMessage());
+            return "error";
+        } catch (Exception e) {
+            model.addAttribute("error", "Unexpected error: " + e.getMessage());
+            return "error";
         }
     }
 
@@ -108,8 +97,8 @@ public class TransaksiControllers {
         // Ambil data pengguna berdasarkan username
         User user = userRepository.findByUsername(username);
 
-        // Ambil transaksi terbaru yang terkait dengan pengguna
-        Transaksi transaksi = transaksiRepository.findTopByUserOrderByDateDesc(user);
+        List<Transaksi> transaksiList = transaksiRepository.findByUser(user);
+        Transaksi transaksi = transaksiList.isEmpty() ? null : transaksiList.get(transaksiList.size() - 1);
 
         // Ambil hasil analisis dari transaksi terakhir
         String hasilAnalisis = (transaksi != null) ? transaksi.getFraud() ? "Fraud" : "Not Fraud" : "No transaction yet";

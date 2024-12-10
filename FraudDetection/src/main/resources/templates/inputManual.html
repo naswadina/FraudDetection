@@ -8,81 +8,76 @@
 </head>
 <body>
 
-<form action="/inputManual" method="POST">
+<form action="/analisis-transaksi/" method="POST">
   <h2>Silahkan Isi Data Transaksi Anda!</h2>
 
-  <label for="amount">Amount:</label>
-  <input type="number" name="amount" id="amount" required>
+  <label for="Amount">Amount:</label>
+  <input type="number" step="0.01" name="Amount" id="Amount" required>
 
-  <label for="typeOfCard">Type of Card:</label>
-  <select name="typeOfCard" id="typeOfCard" required>
+  <label for="Type_of_Card">Type of Card:</label>
+  <select name="Type_of_Card" id="Type_of_Card" required>
     <option value="">-- Select Type Of Card --</option>
-    <option value="1">Visa</option>
-    <option value="2">MasterCard</option>
+    <option value="0">Visa</option>
+    <option value="1">MasterCard</option>
   </select>
 
-  <label for="entryMode">Entry Mode:</label>
-  <select name="entryMode" id="entryMode" required>
+  <label for="Entry_Mode">Entry Mode:</label>
+  <select name="Entry_Mode" id="Entry_Mode" required>
     <option value="">-- Select Entry Mode --</option>
-    <option value="1">PIN</option>
-    <option value="2">CVC</option>
-    <option value="3">Tap</option>
+    <option value="0">PIN</option>
+    <option value="1">CVC</option>
+    <option value="2">Tap</option>
   </select>
 
-  <label for="transactionType">Transaction Type:</label>
-  <select name="transactionType" id="transactionType" required>
+  <label for="Type_of_Transaction">Transaction Type:</label>
+  <select name="Type_of_Transaction" id="Type_of_Transaction" required>
     <option value="">-- Select Type Of Transaction --</option>
-    <option value="1">Online</option>
-    <option value="2">ATM</option>
-    <option value="3">POS</option>
+    <option value="0">Online</option>
+    <option value="1">ATM</option>
+    <option value="2">POS</option>
   </select>
 
-  <label for="countryOfTransaction">Country Of Transaction:</label>
-  <select name="countryOfTransaction" id="countryOfTransaction" required>
+  <label for="Country_of_Transaction">Country Of Transaction:</label>
+  <select name="Country_of_Transaction" id="Country_of_Transaction" required>
     <option value="">-- Select Country Of Transaction --</option>
-    <option value="1">UK</option>
-    <option value="2">USA</option>
-    <option value="3">Russia</option>
-    <option value="4">China</option>
-    <option value="5">India</option>
+    <option value="1">India</option>
+    <option value="2">Russia</option>
+    <option value="3">USA</option>
+    <option value="4">UK</option>
+    <option value="5">China</option>
   </select>
 
-  <label for="gender">Gender:</label>
-  <select name="gender" id="gender" required>
+  <label for="Gender">Gender:</label>
+  <select name="Gender" id="Gender" required>
     <option value="">-- Select Gender --</option>
     <option value="0">Female</option>
     <option value="1">Male</option>
   </select>
 
-  <label for="bank">Bank:</label>
-  <select name="bank" id="bank" required>
+  <label for="Bank">Bank:</label>
+  <select name="Bank" id="Bank" required>
     <option value="">-- Select Bank --</option>
-    <option value="1">Barclays</option>
-    <option value="2">Monzo</option>
-    <option value="3">RBS</option>
-    <option value="4">Metro</option>
-    <option value="5">Halifax</option>
-    <option value="6">Lloyds</option>
-    <option value="7">HSBC</option>
+    <option value="0">Barclays</option>
+    <option value="1">Barlcays</option>
+    <option value="2">HSBC</option>
+    <option value="3">Halifax</option>
+    <option value="4">Lloyds</option>
+    <option value="5">Metro</option>
+    <option value="6">Monzo</option>
+    <option value="7">RBS</option>
   </select>
 
-  <label for="date">Date:</label>
-  <input type="date" name="date" id="date" required>
-
-  <label for="dayOfWeek">Day of the Week:</label>
-  <select name="dayOfWeek" id="dayOfWeek" required>
+  <label for="Day_of_Week">Day of the Week:</label>
+  <select name="Day_of_Week" id="Day_of_Week" required>
     <option value="">-- Select Day --</option>
-    <option value="1">Monday</option>
-    <option value="2">Tuesday</option>
-    <option value="3">Wednesday</option>
-    <option value="4">Thursday</option>
-    <option value="5">Friday</option>
-    <option value="6">Saturday</option>
-    <option value="7">Sunday</option>
+    <option value="0">Monday</option>
+    <option value="1">Tuesday</option>
+    <option value="2">Wednesday</option>
+    <option value="3">Thursday</option>
+    <option value="4">Friday</option>
+    <option value="5">Saturday</option>
+    <option value="6">Sunday</option>
   </select>
 
   <button type="submit">Submit</button>
 </form>
-
-</body>
-</html>

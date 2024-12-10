@@ -7,54 +7,51 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import java.math.BigDecimal;
-import java.util.Date;
 
 @Entity
 public class Transaksi {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long transactionId;
+    private Long transaction_id; // Ubah ke snake_case
 
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
 
-    private BigDecimal amount;
-    private int typeOfCard;
-    private int entryMode;
-    private int transactionType;
-    private int countryOfTransaction;
-    private int gender;
-    private int bank;
-    private Date date;
-    private int dayOfWeek;
+    private BigDecimal amount; // Ubah ke sesuai dengan nama di app.py
+    private int type_of_card; // Ubah ke sesuai dengan nama di app.py
+    private int entry_mode; // Ubah ke sesuai dengan nama di app.py
+    private int type_of_transaction; // Ubah ke sesuai dengan nama di app.py
+    private int country_of_transaction; // Ubah ke sesuai dengan nama di app.py
+    private int gender; // Ubah ke sesuai dengan nama di app.py
+    private int bank; // Ubah ke sesuai dengan nama di app.py
+    private int day_of_week; // Ubah ke sesuai dengan nama di app.py
     private boolean fraud;
 
     public Transaksi() {}
 
-    public Transaksi(User user, BigDecimal amount, int typeOfCard, int entryMode, int transactionType,
-                     int countryOfTransaction, int gender, int bank, Date date, int dayOfWeek, boolean fraud) {
+    public Transaksi(User user, BigDecimal amount, int type_of_card, int entry_mode, int type_of_transaction,
+                     int country_of_transaction, int gender, int bank, int day_of_week, boolean fraud) {
         this.user = user;
         this.amount = amount;
-        this.typeOfCard = typeOfCard;
-        this.entryMode = entryMode;
-        this.transactionType = transactionType;
-        this.countryOfTransaction = countryOfTransaction;
+        this.type_of_card = type_of_card;
+        this.entry_mode = entry_mode;
+        this.type_of_transaction = type_of_transaction;
+        this.country_of_transaction = country_of_transaction;
         this.gender = gender;
         this.bank = bank;
-        this.date = date;
-        this.dayOfWeek = dayOfWeek;
+        this.day_of_week = day_of_week;
         this.fraud = fraud;
     }
 
     // Getter and Setter for transactionId
     public Long getTransactionId() {
-        return transactionId;
+        return transaction_id;
     }
 
-    public void setTransactionId(Long transactionId) {
-        this.transactionId = transactionId;
+    public void setTransactionId(Long transaction_id) {
+        this.transaction_id = transaction_id;
     }
 
     // Getter and Setter for user
@@ -77,38 +74,38 @@ public class Transaksi {
 
     // Getter and Setter for typeOfCard
     public int getTypeOfCard() {
-        return typeOfCard;
+        return type_of_card;
     }
 
-    public void setTypeOfCard(int typeOfCard) {
-        this.typeOfCard = typeOfCard;
+    public void setTypeOfCard(int type_of_card) {
+        this.type_of_card = type_of_card;
     }
 
     // Getter and Setter for entryMode
     public int getEntryMode() {
-        return entryMode;
+        return entry_mode;
     }
 
-    public void setEntryMode(int entryMode) {
-        this.entryMode = entryMode;
+    public void setEntryMode(int entry_mode) {
+        this.entry_mode = entry_mode;
     }
 
-    // Getter and Setter for transactionType
-    public int getTransactionType() {
-        return transactionType;
+    // Getter and Setter for typeOfTransaction
+    public int getTypeOfTransaction() {
+        return type_of_transaction;
     }
 
-    public void setTransactionType(int transactionType) {
-        this.transactionType = transactionType;
+    public void setTypeOfTransaction(int type_of_transaction) {
+        this.type_of_transaction = type_of_transaction;
     }
 
     // Getter and Setter for countryOfTransaction
     public int getCountryOfTransaction() {
-        return countryOfTransaction;
+        return country_of_transaction;
     }
 
-    public void setCountryOfTransaction(int countryOfTransaction) {
-        this.countryOfTransaction = countryOfTransaction;
+    public void setCountryOfTransaction(int country_of_transaction) {
+        this.country_of_transaction = country_of_transaction;
     }
 
     // Getter and Setter for gender
@@ -129,22 +126,13 @@ public class Transaksi {
         this.bank = bank;
     }
 
-    // Getter and Setter for date
-    public Date getDate() {
-        return date;
-    }
-
-    public void setDate(Date date) {
-        this.date = date;
-    }
-
     // Getter and Setter for dayOfWeek
     public int getDayOfWeek() {
-        return dayOfWeek;
+        return day_of_week;
     }
 
-    public void setDayOfWeek(int dayOfWeek) {
-        this.dayOfWeek = dayOfWeek;
+    public void setDayOfWeek(int day_of_week) {
+        this.day_of_week = day_of_week;
     }
 
     // Getter and Setter for fraud
@@ -160,4 +148,3 @@ public class Transaksi {
         return fraud;
     }
 }
-
