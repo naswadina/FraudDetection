@@ -27,12 +27,12 @@ public class Transaksi {
     private int gender; // Ubah ke sesuai dengan nama di app.py
     private int bank; // Ubah ke sesuai dengan nama di app.py
     private int day_of_week; // Ubah ke sesuai dengan nama di app.py
-    private boolean fraud;
+    private Boolean fraud;
 
     public Transaksi() {}
 
     public Transaksi(User user, BigDecimal amount, int type_of_card, int entry_mode, int type_of_transaction,
-                     int country_of_transaction, int gender, int bank, int day_of_week, boolean fraud) {
+                     int country_of_transaction, int gender, int bank, int day_of_week, Boolean fraud) {
         this.user = user;
         this.amount = amount;
         this.type_of_card = type_of_card;

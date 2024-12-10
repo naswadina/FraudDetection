@@ -1,10 +1,9 @@
 from datetime import date
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 from decimal import Decimal
 import joblib
 import pandas as pd
 from fastapi import FastAPI, HTTPException
-import numpy as np
 
 # Memuat model yang sudah dilatih
 model = joblib.load('Model_RF.pkl')
@@ -12,39 +11,46 @@ model = joblib.load('Model_RF.pkl')
 # Membuat aplikasi FastAPI
 app = FastAPI()
 
+# Definisikan model untuk validasi data
+class User(BaseModel):
+    userId: int
+    username: str
+    email: str
+
 # Mendefinisikan schema untuk data transaksi
 class Transaksi(BaseModel):
-    Amount: Decimal
-    Type_of_Card: int
-    Entry_Mode: int
-    Type_of_Transaction: int
-    Country_of_Transaction: int
-    Gender: int
-    Bank: int
-    Day_of_Week: int
+    amount: Decimal = Field(alias="Amount")
+    type_of_card: int = Field(alias="Type_of_Card")
+    entry_mode: int = Field(alias="Entry_Mode")
+    type_of_transaction: int = Field(alias="Type_of_Transaction")
+    country_of_transaction: int = Field(alias="Country_of_Transaction")
+    gender: int = Field(alias="Gender")
+    bank: int = Field(alias="Bank")
+    day_of_week: int = Field(alias="Day_of_Week")
+    fraud: bool = False
+
+    class Config:
+        # Menentukan untuk tetap menerima JSON dengan CamelCase
+        populate_by_name = True
 
 @app.post("/analisis-transaksi/")
 async def analisis_transaksi(data: Transaksi):
     try:
         # Mengonversi data transaksi menjadi dictionary
-        input_data = data.dict()
+        input_data = data.dict(by_alias=False)  # Gunakan nama asli field
 
-        # Konversi Amount ke float untuk kompatibilitas dengan model
-        input_data['Amount'] = float(input_data['Amount'])
+        # Konversi `amount` ke float
+        input_data["amount"] = float(input_data["amount"])
 
         # Membuat DataFrame dari input data
         input_df = pd.DataFrame([input_data])
 
-        # Prediksi menggunakan model
-        prediction = model.predict(input_df)
+        # Melakukan prediksi
+        prediction = model.predict(input_df)[0]
 
-        # Menentukan hasil prediksi
-        hasil = "Fraud" if prediction[0] == 1 else "Non-Fraud"
+        # Mapping hasil prediksi
+        result = "Fraud" if prediction == 1 else "Not Fraud"
 
-        return {"result": hasil}
-
-    except HTTPException as http_err:
-        raise http_err
+        return {"result": result}
     except Exception as e:
-        # Menangani kesalahan lain dan memberikan detail pesan kesalahan
-        raise HTTPException(status_code=500, detail=f"Terjadi kesalahan: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Error: {str(e)}")

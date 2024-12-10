@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import jakarta.servlet.http.HttpSession;
 
 @Controller
 public class UserControllers {
@@ -19,28 +20,34 @@ public class UserControllers {
     public String home() {
         return "index";
     }
+
     @GetMapping("/login")
     public String loginPage() {
         // Menampilkan halaman login jika diakses dengan metode GET
         return "login";
     }
+
     @PostMapping("/login")
     public String handleLogin(
             @RequestParam("username") String username, // Pastikan nama sesuai dengan form
             @RequestParam("email") String email,
-            Model model) {
+            Model model,
+            HttpSession session) {  // Tambahkan HttpSession untuk menyimpan session
 
         // Log parameter untuk debugging
         System.out.println("Username: " + username);
         System.out.println("Email: " + email);
 
+        // Simpan user ke database
         User user = new User();
         user.setUsername(username);
         user.setEmail(email);
-
-        // Simpan ke database
         userRepository.save(user);
 
-        return "redirect:/inputManual"; // Redirect ke halaman pilih input
+        // Simpan username dan email dalam session
+        session.setAttribute("username", username);
+        session.setAttribute("email", email);
+
+        return "redirect:/inputManual"; // Redirect ke halaman input manual
     }
 }

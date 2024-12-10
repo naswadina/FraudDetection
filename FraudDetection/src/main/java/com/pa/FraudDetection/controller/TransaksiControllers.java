@@ -13,11 +13,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.client.ResourceAccessException;
 
-import java.text.SimpleDateFormat;
-import java.util.List;
+import java.math.BigDecimal;
 
 @Controller
 public class TransaksiControllers {
@@ -32,20 +33,60 @@ public class TransaksiControllers {
     private static final String fastApiUrl = "http://127.0.0.1:8000/analisis-transaksi/";
 
     @GetMapping("/inputManual")
-    public String showInputManualForm() {
+    public String showInputManualForm(HttpSession session, Model model) {
+        // Cek session apakah ada username dan email
+        String username = (String) session.getAttribute("username");
+        String email = (String) session.getAttribute("email");
+
+        if (username == null || email == null) {
+            return "redirect:/login";  // Jika session tidak ada, arahkan ke halaman login
+        }
+
+        model.addAttribute("username", username);  // Kirim data username ke view
+        model.addAttribute("email", email);  // Kirim data email ke view
         return "inputManual";  // Menampilkan halaman input manual
     }
 
     @PostMapping("/inputManual")
-    public String analyzeTransaction(Transaksi transaksi, Model model) {
+    public String analyzeTransaction(@RequestParam BigDecimal amount,
+                                     @RequestParam int type_of_card,
+                                     @RequestParam int entry_mode,
+                                     @RequestParam int type_of_transaction,
+                                     @RequestParam int country_of_transaction,
+                                     @RequestParam int gender,
+                                     @RequestParam int bank,
+                                     @RequestParam int day_of_week,
+                                     Model model, HttpSession session) {
+        // Mengecek apakah session ada dan valid
+        String username = (String) session.getAttribute("username");
+        if (username == null) {
+            return "redirect:/login";  // Jika session tidak ada, arahkan ke halaman login
+        }
+
+        // Validasi input dari form
+        if (amount == null || amount.compareTo(BigDecimal.ZERO) <= 0) {
+            model.addAttribute("error", "Amount should be greater than zero");
+            return "inputManual";
+        }
+
         RestTemplate restTemplate = new RestTemplate();
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
 
         try {
+            // Membuat objek transaksi dari data yang diterima dari form
+            User user = userRepository.findByUsername(username);
+            Transaksi transaksi = new Transaksi(
+                    user, amount, type_of_card, entry_mode, type_of_transaction,
+                    country_of_transaction, gender, bank, day_of_week, false
+            );
+
             // Konversi objek transaksi menjadi JSON string
             ObjectMapper objectMapper = new ObjectMapper();
-            String body = objectMapper.writeValueAsString(transaksi);  // Memungkinkan JsonProcessingException
+            String body = objectMapper.writeValueAsString(transaksi);
+
+            // Cetak JSON yang akan dikirim ke console
+            System.out.println("JSON yang dikirim ke FastAPI: " + body);
 
             HttpEntity<String> request = new HttpEntity<>(body, headers);
 
@@ -78,6 +119,9 @@ public class TransaksiControllers {
         } catch (HttpClientErrorException e) {
             model.addAttribute("error", "HTTP error: " + e.getMessage());
             return "error";
+        } catch (ResourceAccessException e) {
+            model.addAttribute("error", "Connection error: " + e.getMessage());
+            return "error";
         } catch (Exception e) {
             model.addAttribute("error", "Unexpected error: " + e.getMessage());
             return "error";
@@ -86,31 +130,20 @@ public class TransaksiControllers {
 
     @GetMapping("/dashboard")
     public String showDashboard(HttpSession session, Model model) {
-        // Ambil username dari session
         String username = (String) session.getAttribute("username");
+        String email = (String) session.getAttribute("email");
 
-        // Pastikan pengguna sudah login
-        if (username == null) {
-            return "redirect:/login";  // Jika belum login, arahkan ke halaman login
+        // Cek session
+        if (username == null || email == null) {
+            return "redirect:/login";  // Jika session tidak ada, arahkan ke halaman login
         }
 
-        // Ambil data pengguna berdasarkan username
+        // Ambil data user berdasarkan username
         User user = userRepository.findByUsername(username);
-
-        List<Transaksi> transaksiList = transaksiRepository.findByUser(user);
-        Transaksi transaksi = transaksiList.isEmpty() ? null : transaksiList.get(transaksiList.size() - 1);
-
-        // Ambil hasil analisis dari transaksi terakhir
-        String hasilAnalisis = (transaksi != null) ? transaksi.getFraud() ? "Fraud" : "Not Fraud" : "No transaction yet";
-
-        // Menambahkan data ke model
         model.addAttribute("username", username);
-        model.addAttribute("email", user.getEmail());
-        model.addAttribute("userId", user.getUserId());
-        model.addAttribute("hasilAnalisis", hasilAnalisis);
-        model.addAttribute("transaksi", transaksi); // Menambahkan transaksi terakhir ke model
+        model.addAttribute("email", email);
+        model.addAttribute("user", user);
 
         return "dashboard";  // Menampilkan halaman dashboard
     }
-
 }
