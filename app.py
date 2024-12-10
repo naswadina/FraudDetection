@@ -4,46 +4,47 @@ from decimal import Decimal
 import joblib
 import pandas as pd
 from fastapi import FastAPI, HTTPException
+import numpy as np
 
-# Memuat model yang sudah disimpan
-model = joblib.load('CreditCardFraudModel.pkl')
+# Memuat model yang sudah dilatih
+model = joblib.load('Model_RF.pkl')
 
 # Membuat aplikasi FastAPI
 app = FastAPI()
 
-# Mendefinisikan schema untuk menerima data transaksi
+# Mendefinisikan schema untuk data transaksi
 class Transaksi(BaseModel):
-    amount: Decimal
-    typeOfCard: int  # Menggunakan int untuk type kartu
-    entryMode: int   # Menggunakan int untuk entry mode
-    transactionType: int  # Menggunakan int untuk tipe transaksi
-    countryOfTransaction: int  # Menggunakan int untuk negara transaksi
-    gender: int  # Menggunakan int untuk gender
-    bank: int  # Menggunakan int untuk bank
-    dayOfWeek: int  # Menggunakan int untuk hari dalam minggu
-    date: date  # Menggunakan date tanpa waktu
+    Amount: Decimal
+    Type_of_Card: int
+    Entry_Mode: int
+    Type_of_Transaction: int
+    Country_of_Transaction: int
+    Gender: int
+    Bank: int
+    Day_of_Week: int
 
 @app.post("/analisis-transaksi/")
 async def analisis_transaksi(data: Transaksi):
     try:
-        # Mengambil data dari request dan mengonversinya menjadi dictionary
+        # Mengonversi data transaksi menjadi dictionary
         input_data = data.dict()
 
-        # Buat DataFrame dan sesuaikan urutan kolom sesuai dengan yang dibutuhkan model
-        input_data = pd.DataFrame([input_data], columns=["amount", "typeOfCard", "entryMode", "transactionType", 
-                                                         "countryOfTransaction", "gender", "bank", "dayOfWeek", "date"])
+        # Konversi Amount ke float untuk kompatibilitas dengan model
+        input_data['Amount'] = float(input_data['Amount'])
 
-        # Pastikan data tanggal dalam format yang benar tanpa waktu
-        input_data["date"] = pd.to_datetime(input_data["date"]).dt.date
+        # Membuat DataFrame dari input data
+        input_df = pd.DataFrame([input_data])
 
-        # Prediksi menggunakan model yang sudah diload
-        prediction = model.predict(input_data)
+        # Prediksi menggunakan model
+        prediction = model.predict(input_df)
 
-        # Mengembalikan hasil prediksi
-        return {"result": "Fraud" if prediction[0] == 1 else "Non-Fraud"}
-    
+        # Menentukan hasil prediksi
+        hasil = "Fraud" if prediction[0] == 1 else "Non-Fraud"
+
+        return {"result": hasil}
+
     except HTTPException as http_err:
         raise http_err
     except Exception as e:
         # Menangani kesalahan lain dan memberikan detail pesan kesalahan
-        raise HTTPException(status_code=500, detail=f"Error: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Terjadi kesalahan: {str(e)}")
