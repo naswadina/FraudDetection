@@ -50,13 +50,13 @@ public class TransaksiControllers {
 
     @PostMapping("/inputManual")
     public String analyzeTransaction(@RequestParam BigDecimal amount,
-                                     @RequestParam int type_of_card,
-                                     @RequestParam int entry_mode,
-                                     @RequestParam int type_of_transaction,
-                                     @RequestParam int country_of_transaction,
+                                     @RequestParam int typeOfCard,
+                                     @RequestParam int entryMode,
+                                     @RequestParam int typeOfTransaction,
+                                     @RequestParam int countryOfTransaction,
                                      @RequestParam int gender,
                                      @RequestParam int bank,
-                                     @RequestParam int day_of_week,
+                                     @RequestParam int dayOfWeek,
                                      Model model, HttpSession session) {
         // Mengecek apakah session ada dan valid
         String username = (String) session.getAttribute("username");
@@ -76,10 +76,10 @@ public class TransaksiControllers {
 
         try {
             // Membuat objek transaksi dari data yang diterima dari form
-            List<User> user = userRepository.findByUsername(username);
+            List<User> users = userRepository.findByUsername(username);
             Transaksi transaksi = new Transaksi(
-                    user.get(0), amount, type_of_card, entry_mode, type_of_transaction,
-                    country_of_transaction, gender, bank, day_of_week, false
+                    users.get(0), amount, typeOfCard, entryMode, typeOfTransaction,
+                    countryOfTransaction, gender, bank, dayOfWeek, false
             );
 
             // Konversi objek transaksi menjadi JSON string

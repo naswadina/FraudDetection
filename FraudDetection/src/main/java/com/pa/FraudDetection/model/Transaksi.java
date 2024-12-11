@@ -13,45 +13,45 @@ public class Transaksi {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long transaction_id; // Ubah ke snake_case
+    private Long transactionId; // Ubah ke camelCase
 
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
 
     private BigDecimal amount;
-    private int typeofcard;
-    private int entry_mode;
-    private int type_of_transaction;
-    private int country_of_transaction;
+    private int typeOfCard;
+    private int entryMode;
+    private int typeOfTransaction;
+    private int countryOfTransaction;
     private int gender;
     private int bank;
-    private int day_of_week;
+    private int dayOfWeek;
     private Boolean fraud;
 
     public Transaksi() {}
 
-    public Transaksi(User user, BigDecimal amount, int typeofcard, int entry_mode, int type_of_transaction,
-                     int country_of_transaction, int gender, int bank, int day_of_week, Boolean fraud) {
+    public Transaksi(User user, BigDecimal amount, int typeOfCard, int entryMode, int typeOfTransaction,
+                     int countryOfTransaction, int gender, int bank, int dayOfWeek, Boolean fraud) {
         this.user = user;
         this.amount = amount;
-        this.typeofcard = typeofcard;
-        this.entry_mode = entry_mode;
-        this.type_of_transaction = type_of_transaction;
-        this.country_of_transaction = country_of_transaction;
+        this.typeOfCard = typeOfCard;
+        this.entryMode = entryMode;
+        this.typeOfTransaction = typeOfTransaction;
+        this.countryOfTransaction = countryOfTransaction;
         this.gender = gender;
         this.bank = bank;
-        this.day_of_week = day_of_week;
+        this.dayOfWeek = dayOfWeek;
         this.fraud = fraud;
     }
 
     // Getter and Setter for transactionId
     public Long getTransactionId() {
-        return transaction_id;
+        return transactionId;
     }
 
-    public void setTransactionId(Long transaction_id) {
-        this.transaction_id = transaction_id;
+    public void setTransactionId(Long transactionId) {
+        this.transactionId = transactionId;
     }
 
     // Getter and Setter for user
@@ -73,39 +73,39 @@ public class Transaksi {
     }
 
     // Getter and Setter for typeOfCard
-    public int getType_of_Card() {
-        return typeofcard;
+    public int getTypeOfCard() {
+        return typeOfCard;
     }
 
-    public void setType_of_Card(int type_of_card) {
-        this.typeofcard = type_of_card;
+    public void setTypeOfCard(int typeOfCard) {
+        this.typeOfCard = typeOfCard;
     }
 
     // Getter and Setter for entryMode
     public int getEntryMode() {
-        return entry_mode;
+        return entryMode;
     }
 
-    public void setEntryMode(int entry_mode) {
-        this.entry_mode = entry_mode;
+    public void setEntryMode(int entryMode) {
+        this.entryMode = entryMode;
     }
 
     // Getter and Setter for typeOfTransaction
     public int getTypeOfTransaction() {
-        return type_of_transaction;
+        return typeOfTransaction;
     }
 
-    public void setTypeOfTransaction(int type_of_transaction) {
-        this.type_of_transaction = type_of_transaction;
+    public void setTypeOfTransaction(int typeOfTransaction) {
+        this.typeOfTransaction = typeOfTransaction;
     }
 
     // Getter and Setter for countryOfTransaction
     public int getCountryOfTransaction() {
-        return country_of_transaction;
+        return countryOfTransaction;
     }
 
-    public void setCountryOfTransaction(int country_of_transaction) {
-        this.country_of_transaction = country_of_transaction;
+    public void setCountryOfTransaction(int countryOfTransaction) {
+        this.countryOfTransaction = countryOfTransaction;
     }
 
     // Getter and Setter for gender
@@ -128,23 +128,19 @@ public class Transaksi {
 
     // Getter and Setter for dayOfWeek
     public int getDayOfWeek() {
-        return day_of_week;
+        return dayOfWeek;
     }
 
-    public void setDayOfWeek(int day_of_week) {
-        this.day_of_week = day_of_week;
+    public void setDayOfWeek(int dayOfWeek) {
+        this.dayOfWeek = dayOfWeek;
     }
 
     // Getter and Setter for fraud
-    public boolean isFraud() {
+    public Boolean getFraud() {
         return fraud;
     }
 
-    public void setFraud(boolean fraud) {
+    public void setFraud(Boolean fraud) {
         this.fraud = fraud;
-    }
-
-    public boolean getFraud() {
-        return fraud;
     }
 }

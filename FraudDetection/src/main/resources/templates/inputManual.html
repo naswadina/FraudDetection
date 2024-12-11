@@ -6,7 +6,7 @@
   <title>Input Manual</title>
   <link rel="stylesheet" href="/css/inputManual.css">
 </head>
-<body>cd
+<body>
 
 <form action="/inputManual" method="POST">
   <h2>Silahkan Isi Data Transaksi Anda!</h2>
@@ -14,37 +14,37 @@
   <label for="amount">Amount:</label>
   <input type="number" step="0.01" name="amount" id="amount" required>
 
-  <label for="type_of_card">Type of Card:</label>
-  <select name="type_of_card" id="type_of_card" required>
+  <label for="typeOfCard">Type of Card:</label>
+  <select name="typeOfCard" id="typeOfCard" required>
     <option value="">-- Select Type Of Card --</option>
-    <option value="0">Visa</option>
-    <option value="1">MasterCard</option>
+    <option value="0">MasterCard</option>
+    <option value="1">Visa</option>
   </select>
 
-  <label for="entry_mode">Entry Mode:</label>
-  <select name="entry_mode" id="entry_mode" required>
+  <label for="entryMode">Entry Mode:</label>
+  <select name="entryMode" id="entryMode" required>
     <option value="">-- Select Entry Mode --</option>
-    <option value="0">PIN</option>
-    <option value="1">CVC</option>
+    <option value="0">CVC</option>
+    <option value="1">PIN</option>
     <option value="2">Tap</option>
   </select>
 
-  <label for="type_of_transaction">Transaction Type:</label>
-  <select name="type_of_transaction" id="type_of_transaction" required>
+  <label for="typeOfTransaction">Transaction Type:</label>
+  <select name="typeOfTransaction" id="typeOfTransaction" required>
     <option value="">-- Select Type Of Transaction --</option>
-    <option value="0">Online</option>
-    <option value="1">ATM</option>
+    <option value="0">ATM</option>
+    <option value="1">Online</option>
     <option value="2">POS</option>
   </select>
 
-  <label for="country_of_transaction">Country Of Transaction:</label>
-  <select name="country_of_transaction" id="country_of_transaction" required>
+  <label for="countryOfTransaction">Country Of Transaction:</label>
+  <select name="countryOfTransaction" id="countryOfTransaction" required>
     <option value="">-- Select Country Of Transaction --</option>
+    <option value="0">Chine</option>
     <option value="1">India</option>
     <option value="2">Russia</option>
     <option value="3">USA</option>
     <option value="4">UK</option>
-    <option value="5">China</option>
   </select>
 
   <label for="gender">Gender:</label>
@@ -67,17 +67,20 @@
     <option value="7">RBS</option>
   </select>
 
-  <label for="day_of_week">Day of the Week:</label>
-  <select name="day_of_week" id="day_of_week" required>
+  <label for="dayOfWeek">Day of the Week:</label>
+  <select name="dayOfWeek" id="dayOfWeek" required>
     <option value="">-- Select Day --</option>
-    <option value="0">Monday</option>
-    <option value="1">Tuesday</option>
-    <option value="2">Wednesday</option>
-    <option value="3">Thursday</option>
-    <option value="4">Friday</option>
+    <option value="4">Monday</option>
+    <option value="2">Tuesday</option>
+    <option value="3">Wednesday</option>
+    <option value="1">Thursday</option>
+    <option value="0">Friday</option>
     <option value="5">Saturday</option>
     <option value="6">Sunday</option>
   </select>
 
   <button type="submit">Submit</button>
 </form>
+
+</body>
+</html>

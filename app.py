@@ -11,39 +11,50 @@ model = joblib.load('Model_RF.pkl')
 # Membuat aplikasi FastAPI
 app = FastAPI()
 
-# Definisikan model untuk validasi data
+# Model untuk User
 class User(BaseModel):
-    userId: int
-    username: str
-    email: str
+    userId: int = Field(alias="userId")
+    username: str = Field(alias="username")
+    email: str = Field(alias="email")
 
-# Mendefinisikan schema untuk data transaksi
+# Model untuk data Transaksi
 class Transaksi(BaseModel):
-    amount: Decimal = Field(alias="Amount")
-    type_of_card: int = Field(alias="Type_of_Card")
-    entry_mode: int = Field(alias="Entry_Mode")
-    type_of_transaction: int = Field(alias="Type_of_Transaction")
-    country_of_transaction: int = Field(alias="Country_of_Transaction")
-    gender: int = Field(alias="Gender")
-    bank: int = Field(alias="Bank")
-    day_of_week: int = Field(alias="Day_of_Week")
-    fraud: bool = False
+    transactionId: int = Field(default=None, alias="transactionId")
+    user: User = Field(alias="user")
+    amount: Decimal = Field(alias="amount")
+    type_of_card: int = Field(alias="typeOfCard")
+    entry_mode: int = Field(alias="entryMode")
+    type_of_transaction: int = Field(alias="typeOfTransaction")
+    country_of_transaction: int = Field(alias="countryOfTransaction")
+    gender: int = Field(alias="gender")
+    bank: int = Field(alias="bank")
+    day_of_week: int = Field(alias="dayOfWeek")
+    fraud: bool = Field(default=False, alias="fraud")
 
     class Config:
-        # Menentukan untuk tetap menerima JSON dengan CamelCase
+        # Menentukan untuk menerima JSON dengan camelCase
         populate_by_name = True
 
 @app.post("/analisis-transaksi/")
 async def analisis_transaksi(data: Transaksi):
     try:
-        # Mengonversi data transaksi menjadi dictionary
-        input_data = data.dict(by_alias=False)  # Gunakan nama asli field
+        # Konversi data ke dictionary (menggunakan nama asli field)
+        input_data = data.dict(by_alias=False)
 
-        # Konversi `amount` ke float
-        input_data["amount"] = float(input_data["amount"])
+        # Ekstraksi hanya data transaksi yang diperlukan untuk prediksi
+        features = {
+            "amount": float(input_data["amount"]),
+            "type_of_card": input_data["type_of_card"],
+            "entry_mode": input_data["entry_mode"],
+            "type_of_transaction": input_data["type_of_transaction"],
+            "country_of_transaction": input_data["country_of_transaction"],
+            "gender": input_data["gender"],
+            "bank": input_data["bank"],
+            "day_of_week": input_data["day_of_week"],
+        }
 
-        # Membuat DataFrame dari input data
-        input_df = pd.DataFrame([input_data])
+        # Membuat DataFrame dari fitur transaksi
+        input_df = pd.DataFrame([features])
 
         # Melakukan prediksi
         prediction = model.predict(input_df)[0]
@@ -51,6 +62,10 @@ async def analisis_transaksi(data: Transaksi):
         # Mapping hasil prediksi
         result = "Fraud" if prediction == 1 else "Not Fraud"
 
-        return {"result": result}
+        return {
+            "transactionId": input_data["transactionId"],
+            "user": input_data["user"],
+            "result": result
+        }
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error: {str(e)}")
