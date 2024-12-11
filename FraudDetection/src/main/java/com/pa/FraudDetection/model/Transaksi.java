@@ -19,14 +19,14 @@ public class Transaksi {
     @JoinColumn(name = "user_id")
     private User user;
 
-    private BigDecimal amount; // Ubah ke sesuai dengan nama di app.py
-    private int type_of_card; // Ubah ke sesuai dengan nama di app.py
-    private int entry_mode; // Ubah ke sesuai dengan nama di app.py
-    private int type_of_transaction; // Ubah ke sesuai dengan nama di app.py
-    private int country_of_transaction; // Ubah ke sesuai dengan nama di app.py
-    private int gender; // Ubah ke sesuai dengan nama di app.py
-    private int bank; // Ubah ke sesuai dengan nama di app.py
-    private int day_of_week; // Ubah ke sesuai dengan nama di app.py
+    private BigDecimal amount;
+    private int type_of_card;
+    private int entry_mode;
+    private int type_of_transaction;
+    private int country_of_transaction;
+    private int gender;
+    private int bank;
+    private int day_of_week;
     private Boolean fraud;
 
     public Transaksi() {}
