@@ -19,6 +19,7 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.client.ResourceAccessException;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @Controller
 public class TransaksiControllers {
@@ -75,9 +76,9 @@ public class TransaksiControllers {
 
         try {
             // Membuat objek transaksi dari data yang diterima dari form
-            User user = userRepository.findByUsername(username);
+            List<User> user = userRepository.findByUsername(username);
             Transaksi transaksi = new Transaksi(
-                    user, amount, type_of_card, entry_mode, type_of_transaction,
+                    user.get(0), amount, type_of_card, entry_mode, type_of_transaction,
                     country_of_transaction, gender, bank, day_of_week, false
             );
 
@@ -139,7 +140,7 @@ public class TransaksiControllers {
         }
 
         // Ambil data user berdasarkan username
-        User user = userRepository.findByUsername(username);
+        List<User> user = userRepository.findByUsername(username);
         model.addAttribute("username", username);
         model.addAttribute("email", email);
         model.addAttribute("user", user);

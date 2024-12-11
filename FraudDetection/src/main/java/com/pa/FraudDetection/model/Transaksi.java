@@ -20,7 +20,7 @@ public class Transaksi {
     private User user;
 
     private BigDecimal amount;
-    private int type_of_card;
+    private int typeofcard;
     private int entry_mode;
     private int type_of_transaction;
     private int country_of_transaction;
@@ -31,11 +31,11 @@ public class Transaksi {
 
     public Transaksi() {}
 
-    public Transaksi(User user, BigDecimal amount, int type_of_card, int entry_mode, int type_of_transaction,
+    public Transaksi(User user, BigDecimal amount, int typeofcard, int entry_mode, int type_of_transaction,
                      int country_of_transaction, int gender, int bank, int day_of_week, Boolean fraud) {
         this.user = user;
         this.amount = amount;
-        this.type_of_card = type_of_card;
+        this.typeofcard = typeofcard;
         this.entry_mode = entry_mode;
         this.type_of_transaction = type_of_transaction;
         this.country_of_transaction = country_of_transaction;
@@ -73,12 +73,12 @@ public class Transaksi {
     }
 
     // Getter and Setter for typeOfCard
-    public int getTypeOfCard() {
-        return type_of_card;
+    public int getType_of_Card() {
+        return typeofcard;
     }
 
-    public void setTypeOfCard(int type_of_card) {
-        this.type_of_card = type_of_card;
+    public void setType_of_Card(int type_of_card) {
+        this.typeofcard = type_of_card;
     }
 
     // Getter and Setter for entryMode
