@@ -49,14 +49,14 @@ public class TransaksiControllers {
     }
 
     @PostMapping("/inputManual")
-    public String analyzeTransaction(@RequestParam BigDecimal amount,
+    public String analyzeTransaction(@RequestParam int dayOfWeek,
                                      @RequestParam int typeOfCard,
                                      @RequestParam int entryMode,
+                                     @RequestParam BigDecimal amount,
                                      @RequestParam int typeOfTransaction,
                                      @RequestParam int countryOfTransaction,
                                      @RequestParam int gender,
                                      @RequestParam int bank,
-                                     @RequestParam int dayOfWeek,
                                      Model model, HttpSession session) {
         // Mengecek apakah session ada dan valid
         String username = (String) session.getAttribute("username");
@@ -75,14 +75,14 @@ public class TransaksiControllers {
         headers.setContentType(MediaType.APPLICATION_JSON);
 
         try {
-            // Membuat objek transaksi dari data yang diterima dari form
+            // Membuat objek transaksi dari data yang diterima dari form tanpa memasukkan 'fraud'
             List<User> users = userRepository.findByUsername(username);
             Transaksi transaksi = new Transaksi(
-                    users.get(0), amount, typeOfCard, entryMode, typeOfTransaction,
-                    countryOfTransaction, gender, bank, dayOfWeek, false
+                    users.get(0), dayOfWeek, typeOfCard, entryMode, amount, typeOfTransaction,
+                    countryOfTransaction, gender, bank, false
             );
 
-            // Konversi objek transaksi menjadi JSON string
+            // Buat objek JSON dari transaksi tanpa field 'fraud'
             ObjectMapper objectMapper = new ObjectMapper();
             String body = objectMapper.writeValueAsString(transaksi);
 
@@ -99,15 +99,18 @@ public class TransaksiControllers {
                     String.class
             );
 
+            // Ambil hasil analisis dari FastAPI
             String analysisResult = response.getBody();
             System.out.println("Hasil Analisis dari Python: " + analysisResult);
 
-            if (analysisResult != null && analysisResult.equals("Fraud")) {
+            // Tentukan fraud berdasarkan hasil prediksi dari FastAPI
+            if (analysisResult != null && analysisResult.equals("fraud")) {
                 transaksi.setFraud(true);
             } else {
                 transaksi.setFraud(false);
             }
 
+            // Simpan transaksi yang sudah terprediksi fraudnya
             transaksiRepository.save(transaksi);
             model.addAttribute("transaksi", transaksi);
             model.addAttribute("hasilAnalisis", analysisResult);
@@ -136,15 +139,22 @@ public class TransaksiControllers {
 
         // Cek session
         if (username == null || email == null) {
-            return "redirect:/login";  // Jika session tidak ada, arahkan ke halaman login
+            return "redirect:/login"; // Jika session tidak ada, arahkan ke halaman login
         }
 
         // Ambil data user berdasarkan username
         List<User> user = userRepository.findByUsername(username);
+
+        // Ambil data transaksi berdasarkan username (asumsi relasi user-transaksi)
+        List<Transaksi> transaksiList = transaksiRepository.findByUser(user.get(0));
+
+        // Tambahkan atribut ke model
         model.addAttribute("username", username);
         model.addAttribute("email", email);
         model.addAttribute("user", user);
+        model.addAttribute("transaksiList", transaksiList);
 
-        return "dashboard";  // Menampilkan halaman dashboard
+        return "dashboard"; // Menampilkan halaman dashboard
     }
+
 }

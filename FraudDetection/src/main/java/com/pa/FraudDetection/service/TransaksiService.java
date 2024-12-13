@@ -1,38 +1,31 @@
 package com.pa.FraudDetection.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.pa.FraudDetection.model.Transaksi;
+import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.util.UriComponentsBuilder;
-import java.time.LocalDate;
 
 @Service
 public class TransaksiService {
 
     private final RestTemplate restTemplate = new RestTemplate();
-    private final String API_URL = "http://127.0.0.1:8000/analisis-transaksi/";
+    private final String fastApiUrl = "http://127.0.0.1:8000/analisis-transaksi/";
 
-    public String analisisTransaksi(String amount, String typeOfCard, String entryMode, String transactionType,
-                                    String countryOfTransaction, String gender, String bank, String dayOfWeek, LocalDate date) {
-        // Mengonversi LocalDate menjadi string dengan format "YYYY-MM-DD"
-        String dateAsString = date.toString();  // Format default LocalDate adalah YYYY-MM-DD
+    public String analisisTransaksi(Transaksi transaksi) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
 
-        // Menyusun URL untuk API dengan menambahkan parameter "date"
-        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(API_URL)
-                .queryParam("amount", amount)
-                .queryParam("typeOfCard", typeOfCard)
-                .queryParam("entryMode", entryMode)
-                .queryParam("transactionType", transactionType)
-                .queryParam("countryOfTransaction", countryOfTransaction)
-                .queryParam("gender", gender)
-                .queryParam("bank", bank)
-                .queryParam("dayOfWeek", dayOfWeek)
-                .queryParam("date", dateAsString);  // Menambahkan parameter date
-
-        // Mengirim request dan menerima hasil analisis
-        ResponseEntity<String> response = restTemplate.postForEntity(builder.toUriString(), null, String.class);
-
-        // Mengembalikan hasil dari analisis
-        return response.getBody();
+        ObjectMapper objectMapper = new ObjectMapper();
+        try {
+            String body = objectMapper.writeValueAsString(transaksi);
+            HttpEntity<String> request = new HttpEntity<>(body, headers);
+            ResponseEntity<String> response = restTemplate.exchange(fastApiUrl, HttpMethod.POST, request, String.class);
+            return response.getBody();
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException("Error processing JSON", e);
+        }
     }
+
 }

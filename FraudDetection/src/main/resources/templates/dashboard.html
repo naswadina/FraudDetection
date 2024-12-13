@@ -1,40 +1,50 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Dashboard</title>
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="/css/dashboard.css">
 </head>
 <body>
-
 <div class="dashboard-container">
+  <div class="header">
+    <h1>Selamat Datang di Dashboard</h1>
+    <p><strong>Username:</strong> <span th:text="${username}">Username</span></p>
+    <p><strong>Email:</strong> <span th:text="${email}">Email</span></p>
+  </div>
+
+  <!-- Informasi Transaksi Terakhir -->
   <div class="content">
-    <h1>Dashboard Pengguna</h1>
-
-    <div class="section">
-      <h3>Informasi Pengguna</h3>
-      <p><strong>ID:</strong> ${userId}</p>
-      <p><strong>Username:</strong> ${username}</p>
-      <p><strong>Email:</strong> ${email}</p>
+    <h2>Data Transaksi Terakhir</h2>
+    <div th:if="${transaksi != null}">
+      <p><strong>Amount:</strong> <span th:text="${transaksi.amount}">Amount</span></p>
+      <p><strong>Card Type:</strong> <span th:text="${transaksi.typeOfCard}">Card Type</span></p>
+      <p><strong>Entry Mode:</strong> <span th:text="${transaksi.entryMode}">Entry Mode</span></p>
+      <p><strong>Transaction Type:</strong> <span th:text="${transaksi.typeOfTransaction}">Transaction Type</span></p>
+      <p><strong>Country of Transaction:</strong> <span th:text="${transaksi.countryOfTransaction}">Country</span></p>
+      <p><strong>Gender:</strong> <span th:text="${transaksi.gender}">Gender</span></p>
+      <p><strong>Bank:</strong> <span th:text="${transaksi.bank}">Bank</span></p>
     </div>
-
-    <div class="section">
-      <h3>Hasil Analisis Transaksi Terakhir</h3>
-      <p><strong>Hasil Analisis:</strong> ${hasilAnalisis}</p>
-    </div>
-
-    <div class="section">
-      <h3>Data Transaksi Terakhir</h3>
-      <p><strong>ID Transaksi:</strong> ${transaksi.id}</p>
-      <p><strong>Amount:</strong> ${transaksi.amount}</p>
-      <p><strong>Card Type:</strong> ${transaksi.typeOfCard}</p>
-      <p><strong>Entry Mode:</strong> ${transaksi.entryMode}</p>
-      <p><strong>Transaction Type:</strong> ${transaksi.transactionType}</p>
-      <p><strong>Transaction Date:</strong> ${transaksi.date}</p>
+    <div th:if="${transaksi == null}">
+      <p>Tidak ada transaksi terakhir untuk ditampilkan.</p>
     </div>
   </div>
-</div>
 
+  <!-- Hasil Analisis -->
+  <div class="content">
+    <h2>Hasil Analisis</h2>
+    <div th:if="${hasilAnalisis != null}">
+      <p><strong>Prediksi:</strong> <span th:text="${hasilAnalisis}"></span></p>
+    </div>
+    <div th:if="${hasilAnalisis == null}">
+      <p>Tidak ada hasil analisis terbaru.</p>
+    </div>
+  </div>
+
+  <footer>
+    <p>Fraud Detection System &copy; 2024</p>
+  </footer>
+</div>
 </body>
 </html>

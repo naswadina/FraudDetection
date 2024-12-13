@@ -1,12 +1,15 @@
-from datetime import date
+from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel, Field
 from decimal import Decimal
-import joblib
 import pandas as pd
-from fastapi import FastAPI, HTTPException
+import joblib
 
 # Memuat model yang sudah dilatih
-model = joblib.load('Model_RF.pkl')
+model = joblib.load('Model_Prediksi.pkl')
+
+# Menyimpan urutan kolom fitur yang digunakan saat pelatihan
+trained_columns = ['dayOfWeek', 'typeOfCard', 'entryMode', 'amount',
+                   'typeOfTransaction', 'countryOfTransaction', 'gender', 'bank']
 
 # Membuat aplikasi FastAPI
 app = FastAPI()
@@ -19,16 +22,15 @@ class User(BaseModel):
 
 # Model untuk data Transaksi
 class Transaksi(BaseModel):
-    transactionId: int = Field(default=None, alias="transactionId")
     user: User = Field(alias="user")
     amount: Decimal = Field(alias="amount")
-    type_of_card: int = Field(alias="typeOfCard")
-    entry_mode: int = Field(alias="entryMode")
-    type_of_transaction: int = Field(alias="typeOfTransaction")
-    country_of_transaction: int = Field(alias="countryOfTransaction")
+    typeOfCard: int = Field(alias="typeOfCard")
+    entryMode: int = Field(alias="entryMode")
+    typeOfTransaction: int = Field(alias="typeOfTransaction")
+    countryOfTransaction: int = Field(alias="countryOfTransaction")
     gender: int = Field(alias="gender")
     bank: int = Field(alias="bank")
-    day_of_week: int = Field(alias="dayOfWeek")
+    dayOfWeek: int = Field(alias="dayOfWeek")
     fraud: bool = Field(default=False, alias="fraud")
 
     class Config:
@@ -43,18 +45,21 @@ async def analisis_transaksi(data: Transaksi):
 
         # Ekstraksi hanya data transaksi yang diperlukan untuk prediksi
         features = {
+            "dayOfWeek": input_data["dayOfWeek"],
+            "typeOfCard": input_data["typeOfCard"],
+            "entryMode": input_data["entryMode"],
             "amount": float(input_data["amount"]),
-            "type_of_card": input_data["type_of_card"],
-            "entry_mode": input_data["entry_mode"],
-            "type_of_transaction": input_data["type_of_transaction"],
-            "country_of_transaction": input_data["country_of_transaction"],
+            "typeOfTransaction": input_data["typeOfTransaction"],
+            "countryOfTransaction": input_data["countryOfTransaction"],
             "gender": input_data["gender"],
             "bank": input_data["bank"],
-            "day_of_week": input_data["day_of_week"],
         }
 
         # Membuat DataFrame dari fitur transaksi
         input_df = pd.DataFrame([features])
+
+        # Menyesuaikan urutan kolom agar sesuai dengan urutan kolom yang digunakan saat pelatihan
+        input_df = input_df[trained_columns]
 
         # Melakukan prediksi
         prediction = model.predict(input_df)[0]
@@ -63,7 +68,6 @@ async def analisis_transaksi(data: Transaksi):
         result = "Fraud" if prediction == 1 else "Not Fraud"
 
         return {
-            "transactionId": input_data["transactionId"],
             "user": input_data["user"],
             "result": result
         }
