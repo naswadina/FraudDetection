@@ -1,59 +1,44 @@
-body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f9;
-    margin: 0;
-    padding: 0;
+/* Styling untuk titik dan slide */
+#menuToggle {
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background-color: #333;
+    cursor: pointer;
+    position: fixed;
+    top: 20px;
+    right: 20px;
 }
 
-.dashboard-container {
-    width: 80%;
-    margin: 0 auto;
+#menuToggle:before {
+    content: '';
+    width: 10px;
+    height: 10px;
     background-color: #fff;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    padding: 20px;
+    display: block;
+    margin: 10px auto;
 }
 
-.header {
-    text-align: center;
-    padding: 20px;
-    background-color: #ae9877;
-    color: white;
+#userMenu {
+    display: none;
+    position: fixed;
+    top: 70px;
+    right: 20px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    padding: 10px;
     border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
-.header h1 {
-    margin: 0;
-}
-
-.content {
-    margin-top: 20px;
-}
-
-.content h2 {
-    font-size: 24px;
+#userMenu a {
+    text-decoration: none;
     color: #333;
+    display: block;
     margin-bottom: 10px;
 }
 
-.content p {
-    font-size: 16px;
-    color: #666;
-}
-
-footer {
-    text-align: center;
-    margin-top: 30px;
-    font-size: 14px;
-    color: #888;
-    border-top: 1px solid #eee;
-    padding-top: 10px;
-}
-
-strong {
-    color: #333;
-}
-
-span {
-    font-weight: normal;
-    color: #555;
+.open {
+    display: block;
 }

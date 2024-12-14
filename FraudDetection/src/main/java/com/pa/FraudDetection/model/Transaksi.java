@@ -23,12 +23,12 @@ public class Transaksi {
     private int countryOfTransaction;
     private int gender;
     private int bank;
-    private Boolean fraud;
+    private boolean fraud;
 
     public Transaksi() {}
 
     public Transaksi(User user, int dayOfWeek, int typeOfCard, int entryMode, BigDecimal amount,
-                     int typeOfTransaction, int countryOfTransaction, int gender, int bank, Boolean fraud) {
+                     int typeOfTransaction, int countryOfTransaction, int gender, int bank, boolean fraud) {
         this.user = user;
         this.dayOfWeek = dayOfWeek;
         this.typeOfCard = typeOfCard;
@@ -123,11 +123,11 @@ public class Transaksi {
     }
 
     // Getter and Setter for fraud
-    public Boolean getFraud() {
+    public boolean isFraud() {
         return fraud;
     }
 
-    public void setFraud(Boolean fraud) {
+    public void setFraud(boolean fraud) {
         this.fraud = fraud;
     }
 }

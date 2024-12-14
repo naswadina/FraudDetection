@@ -60,7 +60,8 @@ public class TransaksiControllers {
                                      Model model, HttpSession session) {
         // Mengecek apakah session ada dan valid
         String username = (String) session.getAttribute("username");
-        if (username == null) {
+        String email = (String) session.getAttribute("email");  // Ambil email dari session
+        if (username == null || email == null) {
             return "redirect:/login";  // Jika session tidak ada, arahkan ke halaman login
         }
 
@@ -112,10 +113,24 @@ public class TransaksiControllers {
 
             // Simpan transaksi yang sudah terprediksi fraudnya
             transaksiRepository.save(transaksi);
+
+            // Menambahkan data ke model untuk ditampilkan di dashboard
+            model.addAttribute("username", username);
+            model.addAttribute("email", email);  // Menambahkan email ke model
             model.addAttribute("transaksi", transaksi);
             model.addAttribute("hasilAnalisis", analysisResult);
 
-            return "dashboard";
+            // Mapping data yang diterima dengan deskripsi yang lebih mudah dimengerti
+            model.addAttribute("amount", amount);
+            model.addAttribute("typeOfCard", getCardType(typeOfCard));
+            model.addAttribute("entryMode", getEntryMode(entryMode));
+            model.addAttribute("transactionType", getTransactionType(typeOfTransaction));
+            model.addAttribute("country", getCountry(countryOfTransaction));
+            model.addAttribute("gender", getGender(gender));
+            model.addAttribute("bank", getBank(bank));
+            model.addAttribute("dayOfWeek", getDayOfWeek(dayOfWeek));
+
+            return "Dashboard";
 
         } catch (JsonProcessingException e) {
             model.addAttribute("error", "Error converting object to JSON: " + e.getMessage());
@@ -131,30 +146,87 @@ public class TransaksiControllers {
             return "error";
         }
     }
-
-    @GetMapping("/dashboard")
-    public String showDashboard(HttpSession session, Model model) {
-        String username = (String) session.getAttribute("username");
-        String email = (String) session.getAttribute("email");
-
-        // Cek session
-        if (username == null || email == null) {
-            return "redirect:/login"; // Jika session tidak ada, arahkan ke halaman login
+    private String getCardType(int typeOfCard) {
+        switch (typeOfCard) {
+            case 0: return "MasterCard";
+            case 1: return "Visa";
+            default: return "Unknown";
         }
-
-        // Ambil data user berdasarkan username
-        List<User> user = userRepository.findByUsername(username);
-
-        // Ambil data transaksi berdasarkan username (asumsi relasi user-transaksi)
-        List<Transaksi> transaksiList = transaksiRepository.findByUser(user.get(0));
-
-        // Tambahkan atribut ke model
-        model.addAttribute("username", username);
-        model.addAttribute("email", email);
-        model.addAttribute("user", user);
-        model.addAttribute("transaksiList", transaksiList);
-
-        return "dashboard"; // Menampilkan halaman dashboard
     }
 
+    private String getEntryMode(int entryMode) {
+        switch (entryMode) {
+            case 0: return "CVC";
+            case 1: return "PIN";
+            case 2: return "Tap";
+            default: return "Unknown";
+        }
+    }
+
+    private String getTransactionType(int typeOfTransaction) {
+        switch (typeOfTransaction) {
+            case 0: return "ATM";
+            case 1: return "Online";
+            case 2: return "POS";
+            default: return "Unknown";
+        }
+    }
+
+    private String getCountry(int countryOfTransaction) {
+        switch (countryOfTransaction) {
+            case 0: return "China";
+            case 1: return "India";
+            case 2: return "Russia";
+            case 3: return "USA";
+            case 4: return "UK";
+            default: return "Unknown";
+        }
+    }
+
+    private String getGender(int gender) {
+        switch (gender) {
+            case 0: return "Female";
+            case 1: return "Male";
+            default: return "Unknown";
+        }
+    }
+
+    private String getBank(int bank) {
+        switch (bank) {
+            case 0: return "Barclays";
+            case 1: return "Barlcays";
+            case 2: return "HSBC";
+            case 3: return "Halifax";
+            case 4: return "Lloyds";
+            case 5: return "Metro";
+            case 6: return "Monzo";
+            case 7: return "RBS";
+            default: return "Unknown";
+        }
+    }
+
+    private String getDayOfWeek(int dayOfWeek) {
+        switch (dayOfWeek) {
+            case 4: return "Monday";
+            case 2: return "Tuesday";
+            case 3: return "Wednesday";
+            case 1: return "Thursday";
+            case 0: return "Friday";
+            case 5: return "Saturday";
+            case 6: return "Sunday";
+            default: return "Unknown";
+        }
+    }
+
+    @GetMapping("/Dashboard")
+    public String showDashboard(HttpSession session, Model model) {
+        // Misalkan hasil analisis dari FastAPI sudah didapatkan
+        String analysisResult = "fraud"; // Hasil analisis dari FastAPI
+
+        // Membuat objek Transaksi dan mengisi status fraud
+        Transaksi transaksi = new Transaksi();
+        transaksi.setFraud(analysisResult.equals("fraud"));
+
+        return "Dashboard";
+    }
 }
