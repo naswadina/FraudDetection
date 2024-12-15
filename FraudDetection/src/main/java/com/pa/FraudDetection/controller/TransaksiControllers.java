@@ -220,20 +220,15 @@ public class TransaksiControllers {
 
     @GetMapping("/Dashboard")
     public String showDashboard(HttpSession session, Model model) {
-        // Misalkan hasil analisis dari FastAPI sudah didapatkan
-        String analysisResult = "fraud"; // Hasil analisis dari FastAPI
-
-        // Membuat objek Transaksi dan mengisi status fraud
-        Transaksi transaksi = new Transaksi();
-        transaksi.setFraud(analysisResult.equals("fraud"));
+        String analysisResult = "fraud";
+        model.addAttribute("hasilAnalisis", analysisResult);
 
         return "Dashboard";
     }
 
     @GetMapping("/logout")
     public String logout(HttpSession session) {
-        // Menghapus session untuk logout
-        session.invalidate(); // Menghapus seluruh atribut session
-        return "logout"; // Redirect ke halaman logout success
+        session.invalidate();
+        return "logout";
     }
 }

@@ -1,118 +1,182 @@
-body {
-    background-color: #fdfaf6;
-    font-family: "Poppins", sans-serif;
-    color: #5a3e2b;
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
-.header {
-    margin-top: 30px;
-    margin-bottom: 20px;
+body {
+    font-family: 'Poppins', sans-serif;
+    background-image: url('fraudimage.jpeg');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    color: #333;
+    font-weight: bold;
+    position: relative;
+}
+
+/* Menambahkan overlay gelap pada latar belakang */
+body::after {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Transparansi gelap */
+    z-index: -1;
+}
+
+/* Container */
+.container {
+    max-width: 1200px;
+    margin: 20px auto;
     padding: 20px;
-    background-color: rgba(115, 74, 50, 0.9);
-    color: #fdfaf6;
-    border-radius: 10px;
-    text-align: center;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+    background-color: rgba(255, 255, 255, 0.7); /* Transparansi pada background */
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Header */
+.header {
+    background-color: #a68d63;
+    color: #fff;
+    padding: 15px;
+    border-radius: 8px 8px 0 0;
 }
 
 .header h1 {
-    font-family: "Merriweather", serif;
-    font-size: 2.5rem;
+    font-size: 26px;
     font-weight: bold;
-    letter-spacing: 1px;
 }
 
-.result-card {
-    margin-bottom: 20px;
-    border-radius: 10px;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-    overflow: hidden;
+/* Card */
+.card {
+    margin-top: 20px;
+    border: none;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    background-color: rgba(255, 255, 255, 0.7); /* Transparansi pada card */
 }
 
 .card-header {
-    background-color: #73503c;
-    color: #fdfaf6;
-    font-size: 1.3rem;
+    background-color: #a68d63;
+    color: white;
+    padding: 10px 15px;
+    border-radius: 8px 8px 0 0;
     font-weight: bold;
-    padding: 15px;
 }
 
 .card-body {
-    background-color: rgba(253, 250, 246, 0.9);
-    padding: 25px;
-    font-size: 1rem;
+    padding: 15px;
 }
 
+/* List Group */
 .list-group-item {
-    font-size: 1rem;
-    padding: 15px;
-    background-color: rgba(245, 237, 230, 0.8);
     border: none;
-    border-bottom: 1px solid rgba(115, 74, 50, 0.3);
+    padding: 10px 15px;
+    border-bottom: 1px solid #e9ecef;
 }
 
 .list-group-item:last-child {
     border-bottom: none;
 }
 
-.fraud-result {
+/* Result Analysis */
+.result-analysis {
+    font-size: 18px;
+    margin: 10px 0;
     font-weight: bold;
-    color: #d9534f;
 }
 
-.not-fraud-result {
+.true-result {
+    color: #e74c3c; /* Merah cerah untuk hasil penipuan */
     font-weight: bold;
-    color: #5cb85c;
 }
 
-.cek-lagi-button, .logout-button {
+.false-result {
+    color: #27ae60; /* Hijau cerah untuk hasil tidak ada penipuan */
     font-weight: bold;
-    margin-top: 15px;
-    padding: 10px 20px;
-    font-size: 1rem;
-    border-radius: 5px;
-    background-color: rgba(174, 152, 119, 0.8);
-    color: white;
-    border: none;
-    transition: background-color 0.3s ease;
 }
 
-.cek-lagi-button:hover, .logout-button:hover {
-    background-color: rgba(174, 152, 119, 0.6);
-}
-
+/* Drawer */
 .drawer {
     position: fixed;
     top: 0;
-    right: -300px;
-    width: 300px;
+    right: -550px;
+    width: 550px;
     height: 100%;
-    background-color: rgba(245, 237, 230, 0.95);
-    box-shadow: -2px 0px 5px rgba(0, 0, 0, 0.2);
+    background-color: rgba(255, 255, 255, 0.7);
+    box-shadow: -2px 0 5px rgba(0, 0, 0, 0.5);
     transition: right 0.3s ease;
-    padding: 20px;
+    z-index: 1000;
 }
 
 .drawer.open {
     right: 0;
 }
 
+/* Drawer Header */
 .drawer-header {
+    background-color: #a68d63;
+    color: white;
+    padding: 15px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border-bottom: 2px solid #73503c;
-    margin-bottom: 15px;
+    font-weight: bold;
+    background-color: rgba(166, 141, 99, 0.7); /* Transparansi untuk header drawer */
 }
 
-.drawer-header h5 {
-    margin: 0;
-    color: #73503c;
-    font-size: 1.2rem;
+.drawer-body {
+    padding: 15px;
 }
 
-.drawer-close {
-    font-size: 1.5rem;
-    cursor: pointer;
-    color: #73503c;
+/* Buttons */
+.btn {
+    display: inline-block;
+    padding: 10px 15px;
+    margin-top: 10px;
+    border: none;
+    border-radius: 5px;
+    text-decoration: none;
+    color: white;
+    background-color: #a68d63; /* Coklat muda untuk tombol */
+    transition: background-color 0.3s;
+    font-weight: bold;
+}
+
+.btn:hover {
+    background-color: #c8a887; /* Hover dengan warna lebih terang */
+}
+
+.cek-lagi-button {
+    background-color: #a68d63; /* Coklat muda untuk tombol Cek Lagi */
+}
+
+.cek-lagi-button:hover {
+    background-color: #c8a887;
+}
+
+.logout-button {
+    background-color: #a68d63; /* Coklat muda untuk tombol Logout */
+}
+
+.logout-button:hover {
+    background-color: #c8a887;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .container {
+        padding: 10px;
+    }
+
+    .header h1 {
+        font-size: 22px;
+    }
+
+    .drawer {
+        width: 250px;
+    }
 }
