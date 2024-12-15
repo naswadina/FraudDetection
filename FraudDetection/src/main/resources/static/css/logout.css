@@ -1,0 +1,73 @@
+/* Resetting some default styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Body and general settings */
+body {
+    font-family: 'Poppins', sans-serif;
+    background: url('fraudimage.jpeg') no-repeat center center/cover; /* Menambahkan gambar background */
+    background-size: cover;
+    color: rgba(255, 255, 255, 0.8);
+    line-height: 1.6;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative; /* Menambahkan relative positioning untuk overlay */
+}
+
+/* Overlay gelap di background */
+body::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5); /* Overlay gelap */
+    z-index: -1; /* Memastikan overlay berada di belakang konten */
+}
+
+/* Thank you container */
+.thank-you-container {
+    text-align: center;
+    padding: 40px;
+    width: 80%;
+    max-width: 600px;
+    background-color: rgba(255, 255, 255, 0.8);
+    border-radius: 15px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* Heading styling */
+.thank-you-container h2 {
+    font-size: 1.5rem;
+    color: #2c3e50;
+    margin-bottom: 20px;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+/* Paragraph styling */
+.thank-you-container p {
+    font-size: 1.2rem;
+    color: #34495e;
+    margin-bottom: 20px;
+}
+
+/* Link styling */
+.thank-you-container a {
+    color: #ae9877;
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.3s ease;
+}
+
+/* Hover effect on link */
+.thank-you-container a:hover {
+    color: #2c3e50;
+    text-decoration: underline;
+}

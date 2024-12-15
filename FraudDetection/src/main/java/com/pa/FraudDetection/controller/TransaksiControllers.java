@@ -229,4 +229,11 @@ public class TransaksiControllers {
 
         return "Dashboard";
     }
+
+    @GetMapping("/logout")
+    public String logout(HttpSession session) {
+        // Menghapus session untuk logout
+        session.invalidate(); // Menghapus seluruh atribut session
+        return "logout"; // Redirect ke halaman logout success
+    }
 }

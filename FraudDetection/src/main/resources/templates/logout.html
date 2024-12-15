@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Logout - Terima Kasih</title>
+    <link rel="stylesheet" href="/css/logout.css">
+</head>
+
+<body>
+<div class="thank-you-container">
+    <h2>Terima Kasih Telah Menggunakan Layanan Kami!</h2>
+    <p>Anda telah berhasil logout dan akan segera diarahkan kembali ke halaman utama.</p>
+    <p>Jika tidak diarahkan secara otomatis, klik <a href="/">di sini</a> untuk kembali.</p>
+</div>
+
+<script>
+    // Redirect ke halaman index setelah 5 detik
+    setTimeout(() => {
+        window.location.href = '/'; // Mengarahkan ke halaman index
+    }, 5000); // Waktu delay 5 detik
+</script>
+</body>
+
+</html>

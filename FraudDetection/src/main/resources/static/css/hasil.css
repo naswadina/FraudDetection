@@ -1,0 +1,118 @@
+body {
+    background-color: #fdfaf6;
+    font-family: "Poppins", sans-serif;
+    color: #5a3e2b;
+}
+
+.header {
+    margin-top: 30px;
+    margin-bottom: 20px;
+    padding: 20px;
+    background-color: rgba(115, 74, 50, 0.9);
+    color: #fdfaf6;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+.header h1 {
+    font-family: "Merriweather", serif;
+    font-size: 2.5rem;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+.result-card {
+    margin-bottom: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+.card-header {
+    background-color: #73503c;
+    color: #fdfaf6;
+    font-size: 1.3rem;
+    font-weight: bold;
+    padding: 15px;
+}
+
+.card-body {
+    background-color: rgba(253, 250, 246, 0.9);
+    padding: 25px;
+    font-size: 1rem;
+}
+
+.list-group-item {
+    font-size: 1rem;
+    padding: 15px;
+    background-color: rgba(245, 237, 230, 0.8);
+    border: none;
+    border-bottom: 1px solid rgba(115, 74, 50, 0.3);
+}
+
+.list-group-item:last-child {
+    border-bottom: none;
+}
+
+.fraud-result {
+    font-weight: bold;
+    color: #d9534f;
+}
+
+.not-fraud-result {
+    font-weight: bold;
+    color: #5cb85c;
+}
+
+.cek-lagi-button, .logout-button {
+    font-weight: bold;
+    margin-top: 15px;
+    padding: 10px 20px;
+    font-size: 1rem;
+    border-radius: 5px;
+    background-color: rgba(174, 152, 119, 0.8);
+    color: white;
+    border: none;
+    transition: background-color 0.3s ease;
+}
+
+.cek-lagi-button:hover, .logout-button:hover {
+    background-color: rgba(174, 152, 119, 0.6);
+}
+
+.drawer {
+    position: fixed;
+    top: 0;
+    right: -300px;
+    width: 300px;
+    height: 100%;
+    background-color: rgba(245, 237, 230, 0.95);
+    box-shadow: -2px 0px 5px rgba(0, 0, 0, 0.2);
+    transition: right 0.3s ease;
+    padding: 20px;
+}
+
+.drawer.open {
+    right: 0;
+}
+
+.drawer-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 2px solid #73503c;
+    margin-bottom: 15px;
+}
+
+.drawer-header h5 {
+    margin: 0;
+    color: #73503c;
+    font-size: 1.2rem;
+}
+
+.drawer-close {
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: #73503c;
+}
