@@ -5,6 +5,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pa.FraudDetection.model.Transaksi;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestTemplate;
 
 @Service
@@ -21,11 +23,18 @@ public class TransaksiService {
         try {
             String body = objectMapper.writeValueAsString(transaksi);
             HttpEntity<String> request = new HttpEntity<>(body, headers);
+
             ResponseEntity<String> response = restTemplate.exchange(fastApiUrl, HttpMethod.POST, request, String.class);
             return response.getBody();
+
         } catch (JsonProcessingException e) {
-            throw new RuntimeException("Error processing JSON", e);
+            throw new RuntimeException("Error converting Transaksi to JSON", e);
+        } catch (HttpClientErrorException e) {
+            throw new RuntimeException("HTTP error while communicating with FastAPI: " + e.getMessage(), e);
+        } catch (ResourceAccessException e) {
+            throw new RuntimeException("Connection error: " + e.getMessage(), e);
+        } catch (Exception e) {
+            throw new RuntimeException("Unexpected error occurred: " + e.getMessage(), e);
         }
     }
-
 }

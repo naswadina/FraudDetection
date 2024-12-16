@@ -23,7 +23,6 @@ public class UserControllers {
 
     @GetMapping("/login")
     public String loginPage() {
-        // Menampilkan halaman login jika diakses dengan metode GET
         return "login";
     }
 
