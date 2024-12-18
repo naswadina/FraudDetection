@@ -32,7 +32,7 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: rgba(210, 180, 140, 0.8); /* Warna soft brown dengan transparansi */
+    background-color: rgba(174, 152, 119, 0.91); /* Warna soft brown dengan transparansi */
     color: #fff;
     padding: 15px;
     border-radius: 8px;
@@ -56,7 +56,7 @@ body {
 }
 
 .card-header {
-    background-color: rgba(210, 180, 140, 0.9); /* Warna soft brown dengan transparansi */
+    background-color: rgba(174, 152, 119, 0.91); /* Warna soft brown dengan transparansi */
     color: #fff;
     font-weight: bold;
     margin-bottom: 10px;
@@ -120,7 +120,7 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: rgba(210, 180, 140, 0.8);
+    background-color: rgba(174, 152, 119, 0.91);
     color: #fff;
     padding: 13px;
     border-radius: 10px; /* Membuat sudut membulat */
@@ -128,7 +128,7 @@ body {
 
 .drawer-body .btn {
     margin-top: 10px;
-    background-color: rgba(210, 180, 140, 0.8);
+    background-color: rgba(174, 152, 119, 0.91);
     color: #fff;
     border: none;
     padding: 10px 15px;
