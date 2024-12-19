@@ -28,7 +28,7 @@ public class UserControllers {
 
     @PostMapping("/login")
     public String handleLogin(
-            @RequestParam("username") String username, // Pastikan nama sesuai dengan form
+            @RequestParam("username") String username,
             @RequestParam("email") String email,
             Model model,
             HttpSession session) {  // Tambahkan HttpSession untuk menyimpan session

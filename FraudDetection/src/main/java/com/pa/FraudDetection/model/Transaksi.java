@@ -1,7 +1,5 @@
 package com.pa.FraudDetection.model;
-
 import jakarta.persistence.*;
-
 import java.math.BigDecimal;
 
 @Entity
@@ -14,7 +12,6 @@ public class Transaksi {
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
-
     private int dayOfWeek;
     private int typeOfCard;
     private int entryMode;
